@@ -1,2 +1,3 @@
-"# AI_Daun" 
-"# AI_Daun" 
+# AI_Daun
+
+Untuk menyelesaikan projek tugas akhir kecerdasan buatan
