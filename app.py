@@ -78,26 +78,14 @@ st.title("🌿 Leaf Classifier")
 choice = st.sidebar.radio("Choose Input Method", ["Upload File", "Use Camera"])
 
 if choice == "Upload File":
-    uploaded_file = st.file_uploader("Upload an image or video", type=["jpg", "jpeg", "png", "mp4", "avi"])
+    uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
     if uploaded_file:
-        if uploaded_file.type.startswith("video"):
-            tfile = tempfile.NamedTemporaryFile(delete=False)
-            tfile.write(uploaded_file.read())
-            cap = cv2.VideoCapture(tfile.name)
-            ret, frame = cap.read()
-            cap.release()
-            if ret:
-                st.image(frame, channels="BGR", caption="Extracted Frame")
-                result_img, name, genome, conf = predict_image(frame)
-                st.success(f"🧬 Predicted: **{name.replace('_', ' ').title()}** ({genome}) with **{conf:.2f}%** confidence")
-                st.image(result_img, caption="Processed Image")
-        else:
-            img = Image.open(uploaded_file).convert("RGB")
-            img_np = np.array(img)
-            st.image(img, caption="Uploaded Image")
-            result_img, name, genome, conf = predict_image(img_np)
-            st.success(f"🧬 Predicted: **{name.replace('_', ' ').title()}** ({genome}) with **{conf:.2f}%** confidence")
-            st.image(result_img, caption="Processed Image")
+        img = Image.open(uploaded_file).convert("RGB")
+        img_np = np.array(img)
+        st.image(img, caption="Uploaded Image")
+        result_img, name, genome, conf = predict_image(img_np)
+        st.success(f"🧬 Predicted: **{name.replace('_', ' ').title()}** ({genome}) with **{conf:.2f}%** confidence")
+        st.image(result_img, caption="Processed Image")
 
 elif choice == "Use Camera":
     camera_img = st.camera_input("Capture Image")
